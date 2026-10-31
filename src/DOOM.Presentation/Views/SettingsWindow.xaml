@@ -1,0 +1,387 @@
+<Window x:Class="DOOM.Presentation.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:DOOM.Presentation.Controls"
+        mc:Ignorable="d"
+        Title="DOOM Settings"
+        Width="580"
+        Height="680"
+        MinHeight="500"
+        MinWidth="540"
+        Background="{StaticResource DoomWindowBackground}"
+        Foreground="{StaticResource DoomTextPrimary}"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="24">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="0,0,12,0">
+
+                <!-- 1. Header Section -->
+                <StackPanel Margin="0,0,0,20">
+                    <TextBlock Text="D O O M"
+                               FontSize="26"
+                               FontWeight="Heavy"
+                               Foreground="{StaticResource DoomMetalGradient}" />
+                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                        <TextBlock Text="{Binding VersionText}"
+                                   FontFamily="{StaticResource DoomMonoFont}"
+                                   FontSize="11.5"
+                                   Foreground="{StaticResource DoomTextSecondary}" />
+                        <TextBlock Text=" · " Foreground="{StaticResource DoomSteel}" />
+                        <!-- Status Badge -->
+                        <Border Background="{StaticResource DoomControl}" CornerRadius="4" Padding="6,2">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="● "
+                                           FontSize="11"
+                                           Foreground="{StaticResource DoomAccentText}" />
+                                <TextBlock Text="{Binding StatusText}"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource DoomAccentText}" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 2. Setup Checklist Card -->
+                <Border Style="{StaticResource DoomCardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Setup Checklist" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource DoomTextPrimary}" Margin="0,0,0,12" />
+
+                        <!-- Accessibility Row -->
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="🛡 " Foreground="{StaticResource DoomAccentText}" FontSize="13" Margin="0,0,8,0" />
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Windows UI Automation" FontSize="13" Foreground="{StaticResource DoomTextPrimary}" />
+                                <TextBlock Text="Active &amp; Available (Standard User)" FontSize="11" Foreground="{StaticResource DoomAccentText}" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="2" Text="Granted" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource DoomAccentText}" VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Rectangle Fill="{StaticResource DoomSteel}" Opacity="0.3" Height="1" Margin="0,8" />
+
+                        <!-- API Key Row -->
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="🔑 " Foreground="{StaticResource DoomAccentText}" FontSize="13" Margin="0,0,8,0" />
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Gemini API Key" FontSize="13" Foreground="{StaticResource DoomTextPrimary}" />
+                                <TextBlock Text="{Binding ApiKeyStatusText}"
+                                           FontSize="11"
+                                           Foreground="{StaticResource DoomTextSecondary}" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="2"
+                                       Text="{Binding ApiKeyBadgeText}"
+                                       FontSize="12"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource DoomAccentText}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Rectangle Fill="{StaticResource DoomSteel}" Opacity="0.3" Height="1" Margin="0,8" />
+
+                        <!-- Privacy Notice Row -->
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="📄 " Foreground="{StaticResource DoomAccentText}" FontSize="13" Margin="0,0,8,0" />
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="Privacy Notice" FontSize="13" Foreground="{StaticResource DoomTextPrimary}" />
+                                <TextBlock Text="{Binding PrivacyReviewStatusText}"
+                                           FontSize="11"
+                                           Foreground="{StaticResource DoomTextSecondary}" />
+                            </StackPanel>
+                            <Button Grid.Column="2"
+                                    Content="Review…"
+                                    Style="{StaticResource DoomSecondaryButtonStyle}"
+                                    Command="{Binding OpenPrivacyNoticeCommand}"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding IsPrivacyReviewed, Converter={x:Static controls:VisibilityConverters.InverseBoolToVisibility}}" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- 3. Gemini Configuration Card -->
+                <Border Style="{StaticResource DoomCardStyle}">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Gemini Configuration" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource DoomTextPrimary}" VerticalAlignment="Center" />
+                            <Border Grid.Column="1" Background="{StaticResource DoomControl}" CornerRadius="4" Padding="6,2">
+                                <TextBlock Text="{Binding ApiKeyBadgeText}"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           Foreground="{StaticResource DoomAccentText}" />
+                            </Border>
+                        </Grid>
+
+                        <!-- API Key Configuration -->
+                        <TextBlock Text="Gemini API Key" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource DoomTextSecondary}" Margin="0,0,0,6" />
+
+                        <!-- When Key is Already Saved and Not Being Replaced -->
+                        <StackPanel Visibility="{Binding CanShowInputField, Converter={x:Static controls:VisibilityConverters.InverseBoolToVisibility}}">
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Saved securely via Windows DPAPI"
+                                           FontSize="13"
+                                           Foreground="{StaticResource DoomAccentText}"
+                                           VerticalAlignment="Center" />
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Button Content="Test Connection"
+                                            Style="{StaticResource DoomSecondaryButtonStyle}"
+                                            Command="{Binding TestConnectionCommand}"
+                                            Margin="0,0,6,0" />
+                                    <Button Content="Replace Key"
+                                            Style="{StaticResource DoomSecondaryButtonStyle}"
+                                            Command="{Binding StartReplaceKeyCommand}"
+                                            Margin="0,0,6,0" />
+                                    <Button Content="Remove"
+                                            Style="{StaticResource DoomSecondaryButtonStyle}"
+                                            Command="{Binding RemoveApiKeyCommand}" />
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Test Result Display -->
+                            <TextBlock Text="{Binding TestConnectionResult}"
+                                       FontSize="11.5"
+                                       Foreground="{StaticResource DoomAccentText}"
+                                       Margin="0,0,0,6"
+                                       Visibility="{Binding TestConnectionResult, Converter={x:Static controls:VisibilityConverters.EmptyToCollapsed}}" />
+                        </StackPanel>
+
+                        <!-- When Key is Missing or Being Replaced -->
+                        <StackPanel Visibility="{Binding CanShowInputField, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}">
+                            <Grid Margin="0,0,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <PasswordBox x:Name="ApiKeyPasswordBox"
+                                             Style="{StaticResource DoomPasswordBoxStyle}"
+                                             PasswordChanged="ApiKeyPasswordBox_PasswordChanged"
+                                             Visibility="{Binding IsKeyRevealed, Converter={x:Static controls:VisibilityConverters.InverseBoolToVisibility}}" />
+                                <TextBox x:Name="ApiKeyTextBox"
+                                         Style="{StaticResource DoomTextBoxStyle}"
+                                         TextChanged="ApiKeyTextBox_TextChanged"
+                                         Visibility="{Binding IsKeyRevealed, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}" />
+                                <Button Grid.Column="1"
+                                        Content="{Binding ShowHideButtonText}"
+                                        Style="{StaticResource DoomSecondaryButtonStyle}"
+                                        Command="{Binding ToggleKeyVisibilityCommand}"
+                                        Margin="6,0,0,0" />
+                                <Button Grid.Column="2"
+                                        Content="Save Key"
+                                        Style="{StaticResource DoomPrimaryButtonStyle}"
+                                        Command="{Binding SaveApiKeyCommand}"
+                                        Margin="6,0,0,0" />
+                                <Button Grid.Column="3"
+                                        Content="Cancel"
+                                        Style="{StaticResource DoomSecondaryButtonStyle}"
+                                        Command="{Binding CancelReplaceKeyCommand}"
+                                        Margin="6,0,0,0"
+                                        Visibility="{Binding IsReplacingKey, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}" />
+                            </Grid>
+                            <TextBlock Text="{Binding ApiKeyStatusMessage}"
+                                       FontSize="11"
+                                       Foreground="{StaticResource DoomError}"
+                                       Margin="0,2,0,4"
+                                       Visibility="{Binding ApiKeyStatusMessage, Converter={x:Static controls:VisibilityConverters.EmptyToCollapsed}}" />
+                        </StackPanel>
+
+                        <TextBlock Text="Get a key from Google AI Studio. Stored strictly in local Windows DPAPI storage."
+                                   FontSize="11"
+                                   Foreground="{StaticResource DoomTextTertiary}"
+                                   Margin="0,2,0,12" />
+
+                        <Rectangle Fill="{StaticResource DoomSteel}" Opacity="0.3" Height="1" Margin="0,6,0,12" />
+
+                        <!-- Model Selection -->
+                        <TextBlock Text="Model" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource DoomTextSecondary}" Margin="0,0,0,6" />
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding ModelIdInput, UpdateSourceTrigger=PropertyChanged}"
+                                     Style="{StaticResource DoomTextBoxStyle}" />
+                            <Button Grid.Column="1"
+                                    Content="Save"
+                                    Style="{StaticResource DoomSecondaryButtonStyle}"
+                                    Command="{Binding SaveModelCommand}"
+                                    Margin="6,0,0,0" />
+                            <Button Grid.Column="2"
+                                    Content="Reset"
+                                    Style="{StaticResource DoomSecondaryButtonStyle}"
+                                    Command="{Binding ResetModelCommand}"
+                                    Margin="6,0,0,0"
+                                    Visibility="{Binding CanResetModel, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}" />
+                        </Grid>
+                        <TextBlock Text="Default: gemini-3.5-flash. Modifying model changes quality, latency, and token rate limits."
+                                   FontSize="11"
+                                   Foreground="{StaticResource DoomTextTertiary}" />
+                    </StackPanel>
+                </Border>
+
+                <!-- 4. Global Shortcuts Card -->
+                <Border Style="{StaticResource DoomCardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Shortcuts" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource DoomTextPrimary}" Margin="0,0,0,12" />
+
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Capture &amp; Query Gemini" FontSize="13" Foreground="{StaticResource DoomTextPrimary}" VerticalAlignment="Center" />
+                            <Border Grid.Column="1" Style="{StaticResource DoomKeycapBorder}">
+                                <TextBlock Text="{Binding TriggerShortcut}" FontFamily="{StaticResource DoomMonoFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource DoomAccentText}" />
+                            </Border>
+                        </Grid>
+
+                        <Rectangle Fill="{StaticResource DoomSteel}" Opacity="0.3" Height="1" Margin="0,6" />
+
+                        <Grid Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Show / Hide Response Panel" FontSize="13" Foreground="{StaticResource DoomTextPrimary}" VerticalAlignment="Center" />
+                            <Border Grid.Column="1" Style="{StaticResource DoomKeycapBorder}">
+                                <TextBlock Text="{Binding ToggleShortcut}" FontFamily="{StaticResource DoomMonoFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource DoomAccentText}" />
+                            </Border>
+                        </Grid>
+
+                        <TextBlock Text="Global shortcuts are registered via RegisterHotKey and reserved across all applications."
+                                   FontSize="11"
+                                   Foreground="{StaticResource DoomTextTertiary}"
+                                   Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- 5. Privacy Controls Card -->
+                <Border Style="{StaticResource DoomCardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="Privacy" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource DoomTextPrimary}" Margin="0,0,0,12" />
+
+                        <TextBlock Text="DOOM sends only user-selected text to Gemini upon explicit hotkey activation."
+                                   FontSize="12"
+                                   Foreground="{StaticResource DoomTextSecondary}"
+                                   Margin="0,0,0,10" />
+
+                        <!-- Copy Fallback Toggle -->
+                        <Grid Margin="0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                                <TextBlock Text="Synthesize Copy Fallback" FontSize="13" FontWeight="Medium" Foreground="{StaticResource DoomTextPrimary}" />
+                                <TextBlock Text="When an app doesn't implement UI Automation text patterns, DOOM can synthesize Ctrl+C and restore clipboard sequence numbers. Never touches password fields."
+                                           FontSize="11"
+                                           Foreground="{StaticResource DoomTextTertiary}"
+                                           TextWrapping="Wrap"
+                                           LineHeight="16" />
+                            </StackPanel>
+                            <CheckBox Grid.Column="1"
+                                      IsChecked="{Binding ClipboardFallbackEnabled}"
+                                      VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Rectangle Fill="{StaticResource DoomSteel}" Opacity="0.3" Height="1" Margin="0,10" />
+
+                        <!-- Screen Capture Exclusion Toggle -->
+                        <Grid Margin="0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                                <TextBlock Text="Privacy Mode (Screen Capture Exclusion)" FontSize="13" FontWeight="Medium" Foreground="{StaticResource DoomTextPrimary}" />
+                                <TextBlock Text="Excludes DOOM from Windows DWM display capture (WDA_EXCLUDEFROMCAPTURE). Overlay remains usable locally while invisible to screen recording and conferencing apps."
+                                           FontSize="11"
+                                           Foreground="{StaticResource DoomTextTertiary}"
+                                           TextWrapping="Wrap"
+                                           LineHeight="16" />
+                            </StackPanel>
+                            <CheckBox Grid.Column="1"
+                                      IsChecked="{Binding PrivacyModeEnabled}"
+                                      VerticalAlignment="Center" />
+                        </Grid>
+
+                        <!-- Privacy Details Subpanel -->
+                        <Border Background="#1C2127"
+                                CornerRadius="{StaticResource DoomControlCornerRadius}"
+                                Padding="12"
+                                Margin="0,10,0,0"
+                                Visibility="{Binding PrivacyModeEnabled, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                    <Button Content="Test Local Exclusion"
+                                            Style="{StaticResource DoomSecondaryButtonStyle}"
+                                            Command="{Binding RunSelfTestCommand}"
+                                            Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding SelfTestResult}"
+                                               FontSize="11.5"
+                                               Foreground="{StaticResource DoomAccentText}"
+                                               VerticalAlignment="Center"
+                                               Visibility="{Binding SelfTestResult, Converter={x:Static controls:VisibilityConverters.EmptyToCollapsed}}" />
+                                </StackPanel>
+                                <TextBlock Text="Limitations: Hardware-isolated window sharing provides the highest guarantee. Third-party kernel drivers or screen hooks cannot be blocked by Win32 DWM."
+                                           FontSize="11"
+                                           Foreground="{StaticResource DoomTextTertiary}"
+                                           TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+                <!-- 6. About Card -->
+                <Border Style="{StaticResource DoomCardStyle}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                            <TextBlock Text="About DOOM" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource DoomTextPrimary}" />
+                            <TextBlock Text="{Binding PhaseNote}"
+                                       FontSize="11.5"
+                                       Foreground="{StaticResource DoomTextTertiary}"
+                                       TextWrapping="Wrap"
+                                       Margin="0,4,0,0" />
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Content="Quit DOOM"
+                                Style="{StaticResource DoomSecondaryButtonStyle}"
+                                Command="{Binding QuitCommand}"
+                                VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

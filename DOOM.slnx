@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DOOM.App/DOOM.App.csproj" />
+    <Project Path="src/DOOM.Core/DOOM.Core.csproj" />
+    <Project Path="src/DOOM.Platform.Windows/DOOM.Platform.Windows.csproj" />
+    <Project Path="src/DOOM.Presentation/DOOM.Presentation.csproj" />
+    <Project Path="src/DOOM.Services/DOOM.Services.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DOOM.UnitTests/DOOM.UnitTests.csproj" />
+  </Folder>
+</Solution>

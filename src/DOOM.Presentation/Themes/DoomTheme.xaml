@@ -1,0 +1,263 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Color Tokens -->
+    <Color x:Key="ColorBgDeep">#0B0D10</Color>
+    <Color x:Key="ColorBgHigh">#1B2026</Color>
+    <Color x:Key="ColorSurface">#14171B</Color>
+    <Color x:Key="ColorSurfaceHigh">#1C2026</Color>
+    <Color x:Key="ColorControl">#2A3038</Color>
+    <Color x:Key="ColorMetalHigh">#E6EAEE</Color>
+    <Color x:Key="ColorMetalLow">#8A949E</Color>
+    <Color x:Key="ColorTextPrimary">#E6EAEE</Color>
+    <Color x:Key="ColorTextSecondary">#9AA4AE</Color>
+    <Color x:Key="ColorTextTertiary">#8A949E</Color>
+    <Color x:Key="ColorSteel">#5C6670</Color>
+    <Color x:Key="ColorAccent">#2FA36B</Color>
+    <Color x:Key="ColorAccentText">#4CC38A</Color>
+    <Color x:Key="ColorWarning">#D9A441</Color>
+    <Color x:Key="ColorError">#E5675F</Color>
+    <Color x:Key="ColorPrimaryButtonText">#0B0D10</Color>
+
+    <!-- Solid Brushes -->
+    <SolidColorBrush x:Key="DoomBgDeep" Color="{StaticResource ColorBgDeep}" />
+    <SolidColorBrush x:Key="DoomBgHigh" Color="{StaticResource ColorBgHigh}" />
+    <SolidColorBrush x:Key="DoomSurface" Color="{StaticResource ColorSurface}" />
+    <SolidColorBrush x:Key="DoomSurfaceHigh" Color="{StaticResource ColorSurfaceHigh}" />
+    <SolidColorBrush x:Key="DoomControl" Color="{StaticResource ColorControl}" />
+    <SolidColorBrush x:Key="DoomMetalHigh" Color="{StaticResource ColorMetalHigh}" />
+    <SolidColorBrush x:Key="DoomMetalLow" Color="{StaticResource ColorMetalLow}" />
+    <SolidColorBrush x:Key="DoomTextPrimary" Color="{StaticResource ColorTextPrimary}" />
+    <SolidColorBrush x:Key="DoomTextSecondary" Color="{StaticResource ColorTextSecondary}" />
+    <SolidColorBrush x:Key="DoomTextTertiary" Color="{StaticResource ColorTextTertiary}" />
+    <SolidColorBrush x:Key="DoomSteel" Color="{StaticResource ColorSteel}" />
+    <SolidColorBrush x:Key="DoomAccent" Color="{StaticResource ColorAccent}" />
+    <SolidColorBrush x:Key="DoomAccentText" Color="{StaticResource ColorAccentText}" />
+    <SolidColorBrush x:Key="DoomWarning" Color="{StaticResource ColorWarning}" />
+    <SolidColorBrush x:Key="DoomError" Color="{StaticResource ColorError}" />
+    <SolidColorBrush x:Key="DoomPrimaryButtonText" Color="{StaticResource ColorPrimaryButtonText}" />
+
+    <!-- Gradients -->
+    <LinearGradientBrush x:Key="DoomWindowBackground" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{StaticResource ColorBgDeep}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ColorBgHigh}" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DoomPanelBackground" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{StaticResource ColorSurface}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ColorSurfaceHigh}" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="DoomMetalGradient" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="{StaticResource ColorMetalHigh}" Offset="0.0" />
+        <GradientStop Color="{StaticResource ColorMetalLow}" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <!-- Corner Radius Definitions -->
+    <CornerRadius x:Key="DoomCardCornerRadius">10</CornerRadius>
+    <CornerRadius x:Key="DoomControlCornerRadius">6</CornerRadius>
+
+    <!-- Typography -->
+    <FontFamily x:Key="DoomDefaultFont">Segoe UI, Aptos, sans-serif</FontFamily>
+    <FontFamily x:Key="DoomMonoFont">Consolas, Cascadia Mono, monospace</FontFamily>
+
+    <!-- Base Button Style: Primary Accent -->
+    <Style x:Key="DoomPrimaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource DoomAccent}" />
+        <Setter Property="Foreground" Value="{StaticResource DoomPrimaryButtonText}" />
+        <Setter Property="FontFamily" Value="{StaticResource DoomDefaultFont}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="14,6" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="{StaticResource DoomControlCornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="0.9" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="0.75" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource DoomControl}" />
+                            <Setter Property="Foreground" Value="{StaticResource DoomTextTertiary}" />
+                            <Setter Property="Cursor" Value="Arrow" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Secondary Dark Button Style -->
+    <Style x:Key="DoomSecondaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource DoomControl}" />
+        <Setter Property="Foreground" Value="{StaticResource DoomTextPrimary}" />
+        <Setter Property="FontFamily" Value="{StaticResource DoomDefaultFont}" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="12,5" />
+        <Setter Property="BorderBrush" Value="#5C6670" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource DoomControlCornerRadius}"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#353D47" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#222830" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
+                            <Setter Property="Cursor" Value="Arrow" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Plain Icon Button Style (e.g. Close X) -->
+    <Style x:Key="DoomIconButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{StaticResource DoomTextSecondary}" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="4"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#2A3038" />
+                            <Setter Property="Foreground" Value="{StaticResource DoomTextPrimary}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#3A424E" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Keycap Style -->
+    <Style x:Key="DoomKeycapBorder" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource DoomControl}" />
+        <Setter Property="BorderBrush" Value="#5C6670" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource DoomControlCornerRadius}" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="Margin" Value="2,0" />
+    </Style>
+
+    <!-- Dark Card Container -->
+    <Style x:Key="DoomCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="#171C22" />
+        <Setter Property="BorderBrush" Value="#3A434E" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="{StaticResource DoomCardCornerRadius}" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="Margin" Value="0,0,0,16" />
+    </Style>
+
+    <!-- Dark TextBox Style -->
+    <Style x:Key="DoomTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource DoomControl}" />
+        <Setter Property="Foreground" Value="{StaticResource DoomTextPrimary}" />
+        <Setter Property="CaretBrush" Value="{StaticResource DoomAccentText}" />
+        <Setter Property="BorderBrush" Value="#5C6670" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource DoomControlCornerRadius}">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Margin="{TemplateBinding Padding}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource DoomAccentText}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Dark PasswordBox Style -->
+    <Style x:Key="DoomPasswordBoxStyle" TargetType="PasswordBox">
+        <Setter Property="Background" Value="{StaticResource DoomControl}" />
+        <Setter Property="Foreground" Value="{StaticResource DoomTextPrimary}" />
+        <Setter Property="CaretBrush" Value="{StaticResource DoomAccentText}" />
+        <Setter Property="BorderBrush" Value="#5C6670" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{StaticResource DoomControlCornerRadius}">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" Margin="{TemplateBinding Padding}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource DoomAccentText}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Dark ScrollViewer Style -->
+    <Style x:Key="DoomScrollViewerStyle" TargetType="ScrollViewer">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollViewer">
+                    <Grid>
+                        <ScrollContentPresenter />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>
+

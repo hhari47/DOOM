@@ -1,0 +1,245 @@
+<Window x:Class="DOOM.Presentation.Views.ResponseOverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:DOOM.Presentation.Controls"
+        mc:Ignorable="d"
+        Title="DOOM"
+        Width="440"
+        MinHeight="132"
+        MaxHeight="560"
+        SizeToContent="Height"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        ResizeMode="NoResize"
+        Topmost="True"
+        PreviewKeyDown="Window_PreviewKeyDown">
+
+    <!-- Outer Shadow / Margin Container -->
+    <Border Margin="12"
+            Background="{StaticResource DoomPanelBackground}"
+            CornerRadius="{StaticResource DoomCardCornerRadius}"
+            BorderBrush="{StaticResource DoomSteel}"
+            BorderThickness="1"
+            ClipToBounds="True">
+
+        <Grid>
+            <!-- Brushed metal inner top highlight -->
+            <Border VerticalAlignment="Top" Height="1" Background="#1FFFFFFF" Margin="1,0" />
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="36" /> <!-- Header -->
+                    <RowDefinition Height="Auto" /> <!-- Privacy strip -->
+                    <RowDefinition Height="1" /> <!-- Divider -->
+                    <RowDefinition Height="*" MinHeight="70" MaxHeight="420" /> <!-- Content -->
+                    <RowDefinition Height="Auto" /> <!-- Divider + Footer -->
+                </Grid.RowDefinitions>
+
+                <!-- Header (Draggable) -->
+                <Grid Grid.Row="0"
+                      Background="Transparent"
+                      MouseLeftButtonDown="Header_MouseLeftButtonDown"
+                      Cursor="Hand"
+                      Margin="16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="D O O M"
+                               FontWeight="Black"
+                               FontSize="12"
+                               Foreground="{StaticResource DoomMetalGradient}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left" />
+
+                    <!-- Actions: Settings & Close -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Style="{StaticResource DoomIconButtonStyle}"
+                                Command="{Binding OpenSettingsCommand}"
+                                ToolTip="Settings"
+                                Width="26" Height="26"
+                                Margin="0,0,4,0">
+                            <TextBlock Text="⚙" FontSize="12" Foreground="{StaticResource DoomTextSecondary}" />
+                        </Button>
+                        <Button Style="{StaticResource DoomIconButtonStyle}"
+                                Command="{Binding CloseCommand}"
+                                ToolTip="Close (Esc)"
+                                Width="26" Height="26">
+                            <TextBlock Text="✕" FontSize="11" FontWeight="Bold" Foreground="{StaticResource DoomTextSecondary}" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Privacy Status Strip (When Active) -->
+                <Border Grid.Row="1"
+                        Background="#2014171B"
+                        Padding="16,4"
+                        Visibility="{Binding PrivacyStatusLine, Converter={x:Static controls:VisibilityConverters.NullToCollapsed}}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="🛡 " Foreground="{StaticResource DoomAccentText}" FontSize="11" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding PrivacyStatusLine}"
+                                   Foreground="{StaticResource DoomTextSecondary}"
+                                   FontSize="11"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Hairline Divider -->
+                <Rectangle Grid.Row="2" Fill="{StaticResource DoomSteel}" Opacity="0.4" Height="1" />
+
+                <!-- Content Area -->
+                <Grid Grid.Row="3" Margin="16,12">
+
+                    <!-- State 1: Idle / Empty -->
+                    <StackPanel Visibility="{Binding IsIdle, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="Select text in any app, then press"
+                                   Foreground="{StaticResource DoomTextPrimary}"
+                                   FontSize="13.5"
+                                   Margin="0,0,0,10" />
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource DoomKeycapBorder}">
+                                <TextBlock Text="Ctrl" FontFamily="{StaticResource DoomMonoFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource DoomTextPrimary}" />
+                            </Border>
+                            <Border Style="{StaticResource DoomKeycapBorder}">
+                                <TextBlock Text="Shift" FontFamily="{StaticResource DoomMonoFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource DoomTextPrimary}" />
+                            </Border>
+                            <Border Style="{StaticResource DoomKeycapBorder}">
+                                <TextBlock Text="Space" FontFamily="{StaticResource DoomMonoFont}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource DoomTextPrimary}" />
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- State 2: Acquiring Selection -->
+                    <StackPanel Visibility="{Binding IsAcquiring, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="Reading selection…"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource DoomTextPrimary}"
+                                   Margin="0,0,0,8" />
+                        <ProgressBar Height="2"
+                                     IsIndeterminate="True"
+                                     Foreground="{StaticResource DoomAccent}"
+                                     Background="{StaticResource DoomControl}"
+                                     BorderThickness="0" />
+                    </StackPanel>
+
+                    <!-- State 3: Loading (Asking Gemini) -->
+                    <StackPanel Visibility="{Binding IsLoading, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="Asking Gemini…"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource DoomTextPrimary}"
+                                   Margin="0,0,0,4" />
+                        <TextBlock Text="{Binding StatusSubtitle}"
+                                   FontSize="12"
+                                   Foreground="{StaticResource DoomTextSecondary}"
+                                   Margin="0,0,0,8"
+                                   Visibility="{Binding StatusSubtitle, Converter={x:Static controls:VisibilityConverters.EmptyToCollapsed}}" />
+                        <ProgressBar Height="2"
+                                     IsIndeterminate="True"
+                                     Foreground="{StaticResource DoomAccent}"
+                                     Background="{StaticResource DoomControl}"
+                                     BorderThickness="0" />
+                        <TextBlock Text="Taking longer than usual…"
+                                   FontSize="11.5"
+                                   Foreground="{StaticResource DoomTextSecondary}"
+                                   Margin="0,6,0,0"
+                                   Visibility="{Binding IsTakingLonger, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}" />
+                    </StackPanel>
+
+                    <!-- State 4: Streaming or Completed Response -->
+                    <controls:IncrementalMarkdownViewer x:Name="MarkdownViewer"
+                                                        MarkdownText="{Binding ResponseText}"
+                                                        Visibility="{Binding ResponseText, Converter={x:Static controls:VisibilityConverters.EmptyToCollapsed}}" />
+
+                    <!-- State 5: Error -->
+                    <StackPanel Visibility="{Binding IsError, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}"
+                                VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                            <TextBlock Text="⚠ " Foreground="{StaticResource DoomWarning}" FontSize="14" FontWeight="Bold" />
+                            <TextBlock Text="{Binding StatusTitle}"
+                                       FontSize="13.5"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource DoomTextPrimary}" />
+                        </StackPanel>
+                        <TextBlock Text="{Binding ErrorMessage}"
+                                   FontSize="12.5"
+                                   Foreground="{StaticResource DoomTextSecondary}"
+                                   TextWrapping="Wrap"
+                                   LineHeight="18" />
+                    </StackPanel>
+
+                    <!-- State 6: Cancelled -->
+                    <StackPanel Visibility="{Binding IsCancelled, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}"
+                                VerticalAlignment="Center">
+                        <TextBlock Text="Request cancelled."
+                                   FontSize="13.5"
+                                   Foreground="{StaticResource DoomTextSecondary}" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- Footer (When active or result shown) -->
+                <Grid Grid.Row="4"
+                      Visibility="{Binding HasFooter, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Rectangle Grid.Row="0" Fill="{StaticResource DoomSteel}" Opacity="0.4" Height="1" />
+
+                    <Grid Grid.Row="1" Margin="16,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Busy state footer: Cancel button -->
+                        <Button Grid.Column="1"
+                                Content="Cancel"
+                                Style="{StaticResource DoomSecondaryButtonStyle}"
+                                Command="{Binding CancelCommand}"
+                                Visibility="{Binding IsBusy, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}" />
+
+                        <!-- Completed state footer: Copy & Close buttons -->
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding IsCompleted, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}">
+                            <Button Content="{Binding IsCopied, Converter={x:Static controls:VisibilityConverters.CopiedTextConverter}}"
+                                    Style="{StaticResource DoomSecondaryButtonStyle}"
+                                    Command="{Binding CopyCommand}"
+                                    Margin="0,0,8,0" />
+                            <Button Content="Close"
+                                    Style="{StaticResource DoomPrimaryButtonStyle}"
+                                    Command="{Binding CloseCommand}" />
+                        </StackPanel>
+
+                        <!-- Error state footer: Retry & Settings buttons -->
+                        <StackPanel Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    Visibility="{Binding IsError, Converter={x:Static controls:VisibilityConverters.BoolToVisibility}}">
+                            <Button Content="Settings"
+                                    Style="{StaticResource DoomSecondaryButtonStyle}"
+                                    Command="{Binding OpenSettingsCommand}"
+                                    Margin="0,0,8,0" />
+                            <Button Content="Retry"
+                                    Style="{StaticResource DoomPrimaryButtonStyle}"
+                                    Command="{Binding RetryCommand}"
+                                    IsEnabled="{Binding IsRetryable}" />
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

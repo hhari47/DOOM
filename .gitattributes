@@ -1,0 +1,30 @@
+# Set default behavior to automatically handle line endings
+* text=auto
+
+# Source code files (Windows .NET/WPF standard CRLF)
+*.cs text diff=csharp eol=crlf
+*.xaml text eol=crlf
+*.csproj text eol=crlf
+*.sln text eol=crlf
+*.slnx text eol=crlf
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Markdown documentation (LF standard for GitHub web viewer)
+*.md text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Binary asset files
+*.ico binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
+*.exe binary
+*.dll binary
+*.pdb binary
+

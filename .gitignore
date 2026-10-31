@@ -1,0 +1,83 @@
+# ==============================================================================
+# DOOM — Git Ignore Configuration (.NET 10 / Windows WPF)
+# ==============================================================================
+
+# .NET Build and Compilation Outputs
+**/bin/
+**/obj/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio & ReSharper
+.vs/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.sln.docstates
+*.ide/
+_ReSharper*/
+
+# Visual Studio Code & JetBrains Rider
+.vscode/
+.idea/
+
+# User-Specific Settings & Environment Files
+.env
+.env.*
+!.env.example
+credentials.dat
+settings.json
+settings.local.json
+settings.user.json
+
+# Local Application Data, Logs, and Crash Dumps
+AppData/
+DOOM-UserData/
+*.log
+*.dmp
+*.crash
+
+# Security Certificates, Keys, and Signing Materials
+*.pfx
+*.p12
+*.key
+*.pem
+*.cer.private
+*.snk
+
+# SSH and User Authentication Secrets
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+.ssh/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Test Results and Code Coverage Reports
+[Tt]est[Rr]esults/
+*.trx
+coverage/
+*.coverage
+*.coveragexml
+
+# Temporary and Scratch Files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Release Output, Published Binaries, and Packaged Installers
+# (Binaries and installers are distributed strictly via GitHub Releases)
+dist/
+publish/
+artifacts/
+
+# Legacy reference material (macOS reference codebase)
+_reference/
+
